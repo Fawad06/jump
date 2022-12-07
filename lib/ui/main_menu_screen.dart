@@ -2,13 +2,19 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jump/services/database_service.dart';
 
 import '../generated/assets.dart';
 import 'game_screen.dart';
 
-class MainMenuView extends StatelessWidget {
+class MainMenuView extends StatefulWidget {
   const MainMenuView({Key? key}) : super(key: key);
 
+  @override
+  State<MainMenuView> createState() => _MainMenuViewState();
+}
+
+class _MainMenuViewState extends State<MainMenuView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,13 +50,14 @@ class MainMenuView extends StatelessWidget {
             ),
             const Spacer(flex: 2),
             GestureDetector(
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                   context,
                   CupertinoPageRoute(
                     builder: (context) => GameView(),
                   ),
                 );
+                setState(() {});
               },
               child: SvgPicture.asset(
                 Assets.iconsPlayButton,
@@ -59,9 +66,9 @@ class MainMenuView extends StatelessWidget {
               ),
             ),
             const Spacer(flex: 2),
-            const Text(
-              '"34"',
-              style: TextStyle(
+            Text(
+              '"${DatabaseService.pref.getInt('high_score')}"',
+              style: const TextStyle(
                 fontSize: 34,
                 fontFamily: "Disko",
               ),

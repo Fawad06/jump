@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:jump/services/database_service.dart';
 import 'package:jump/ui/main_menu_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseService().initialize();
   runApp(const MyApp());
 }
 
