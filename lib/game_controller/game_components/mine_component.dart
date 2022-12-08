@@ -42,7 +42,15 @@ class MineComponent extends CircleComponent
       (timer) {
         if (!goingBoom && !gameRef.paused) {
           position.setFrom(Vector2(gameRef.size.x * 0.2, gameRef.size.y * 0.1));
-          asc.Timer(const Duration(seconds: 3), () => goingBoom = true);
+          asc.Timer(const Duration(seconds: 3), () {
+            if (position ==
+                Vector2(gameRef.size.x * 0.2, gameRef.size.y * 0.1)) {
+              Vector2 v1 = ball.position - position;
+              double a = atan2(v1.y, v1.x);
+              nextIncrement = Vector2(cos(a), sin(a));
+              goingBoom = true;
+            }
+          });
         }
       },
     );
@@ -52,9 +60,6 @@ class MineComponent extends CircleComponent
   void update(double dt) {
     if (goingBoom) {
       position.setFrom(position + nextIncrement * 8);
-      Vector2 v1 = ball.position - position;
-      double a = atan2(v1.y, v1.x);
-      nextIncrement = Vector2(cos(a), sin(a));
     }
   }
 

@@ -81,6 +81,7 @@ class JumpGame extends FlameGame with HasCollisionDetection, TapDetector {
     overlays.remove('game_over');
     ball.position.setFrom(size / 2);
     mine.goingBoom = false;
+    mine.position.setFrom(Vector2(size.x * 0.2, size.y * 0.1));
     for (var element in lines) {
       element.position.setFrom(
         Vector2(

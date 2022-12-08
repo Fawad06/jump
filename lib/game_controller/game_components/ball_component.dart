@@ -11,12 +11,11 @@ import 'package:jump/game_controller/game_controller.dart';
 class BallComponent extends CircleComponent
     with CollisionCallbacks, HasGameRef<JumpGame> {
   final Vector2 location;
-  late Vector2 targetPosition;
   LineComponent? currentAttachedLine;
   Vector2? nextIncrement;
   final VoidCallback gameOver;
   final VoidCallback lineJumped;
-  late bool attachFromBack;
+  late Vector2 distanceToLineCenter;
 
   BallComponent({
     required this.location,
@@ -48,10 +47,7 @@ class BallComponent extends CircleComponent
     if (currentAttachedLine != null) {
       position.setFrom(
         currentAttachedLine!.position +
-            currentAttachedLine!.nextIncrement *
-                gameRef.size.y *
-                0.031 *
-                (attachFromBack ? -1.0 : 1.0),
+            distanceToLineCenter * gameRef.size.y * 0.00125,
       );
     }
     if (nextIncrement != null) {
@@ -64,16 +60,11 @@ class BallComponent extends CircleComponent
     super.onCollision(intersectionPoints, other);
     if (other is LineComponent) {
       if (currentAttachedLine == null) {
-        if (mag(position - other.position) >
-            mag(position - (other.position + other.nextIncrement))) {
-          attachFromBack = false;
-        } else {
-          attachFromBack = true;
-        }
         lineJumped();
         currentAttachedLine = other;
         nextIncrement = null;
-      } else if (nextIncrement == null) {
+        distanceToLineCenter = position - currentAttachedLine!.position;
+      } else if (nextIncrement == null && other != currentAttachedLine) {
         gameOverCall();
       }
     }
@@ -84,11 +75,15 @@ class BallComponent extends CircleComponent
 
   void onTap(TapDownInfo info) {
     if (nextIncrement == null && !gameRef.paused) {
-      currentAttachedLine = null;
-      targetPosition = info.eventPosition.game;
-      Vector2 v1 = targetPosition - position;
+      Vector2 v1 = info.eventPosition.game - position;
       double a = atan2(v1.y, v1.x);
-      nextIncrement = Vector2(cos(a), sin(a));
+      Vector2 v2 = Vector2(cos(a), sin(a));
+      if (currentAttachedLine == null) {
+        nextIncrement = v2;
+      } else {
+        nextIncrement = v2;
+        currentAttachedLine = null;
+      }
     }
   }
 
