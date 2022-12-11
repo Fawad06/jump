@@ -1,16 +1,9 @@
 # jump
 
-A new Flutter project.
+Android & iOS mobile game. The player controls a football. Different platforms are coming in and out of screen. The player taps and the ball moves from one platform to another using the tap position. A bomb appears on screen after some interval and tries to hit the ball to end the game, which also happen when ball touches screen.
 
-## Getting Started
+## Preview
 
-This project is a starting point for a Flutter application.
+<img src="https://imgur.com/pyfgvay.png" width="200">    <img src="https://imgur.com/pcqMYb1.png" width="200">
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://imgur.com/ofXJQnL.png" width="200">    <img src="https://imgur.com/0qjtseX.png" width="200">
